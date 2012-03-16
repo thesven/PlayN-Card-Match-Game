@@ -15,7 +15,6 @@ public class Card {
   
   private int spriteIndex;
   private Sprite sprite;
-  private float angle;
   private boolean hasLoaded = false; // set to true when resources have loaded and we can update
 
   public Card(final GroupLayer displayLayer, final float x, final float y) {
@@ -38,6 +37,7 @@ public class Card {
         log().error("Error loading image!", err);
       }
     });
+    
   }
   
   public void setSpriteIndex(int index){

@@ -1,7 +1,7 @@
 package com.thesven.matchgame.core;
 
-import static playn.core.PlayN.assets;
-import static playn.core.PlayN.graphics;
+import static playn.core.PlayN.*;
+
 import playn.core.Game;
 import playn.core.GroupLayer;
 import playn.core.Image;
@@ -16,8 +16,8 @@ public class MatchGame implements Game {
   
   private final static int MAX_CARDS = 32;
   private final static int MAX_COLUMNS = 8;
-  private final static int CARD_X_SPACE = 65;
-  private final static int CARD_Y_SPACE = 96;
+  private final static int CARD_X_SPACE = 70;
+  private final static int CARD_Y_SPACE = 101;
 	
   private ImageLayer bgLayer;
   private GroupLayer layer;
