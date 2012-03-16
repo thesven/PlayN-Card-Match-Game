@@ -1,0 +1,10 @@
+<module rename-to='matchgame'>
+  <inherits name='playn.PlayN'/>
+
+  <source path='core'/>
+  <source path='html'/>
+
+  <public path="resources" />
+
+  <entry-point class='com.thesven.matchgame.html.MatchGameHtml'/>
+</module>
