@@ -1,6 +1,6 @@
 package com.thesven.matchgame.core.cards;
 
-import static playn.core.PlayN.log;
+import static playn.core.PlayN.*;
 
 import playn.core.GroupLayer;
 import playn.core.ResourceCallback;
@@ -10,12 +10,18 @@ import com.thesven.matchgame.core.sprites.SpriteLoader;
 public class Card {
   public static String IMAGE = "images/CardDeck.png";
   public static String JSON = "sprite-data/card.json";
+  
+  private static int SPRITE_BACK = 52;
+  
+  private int spriteIndex;
   private Sprite sprite;
-  private int spriteIndex = 52;
   private float angle;
   private boolean hasLoaded = false; // set to true when resources have loaded and we can update
 
-  public Card(final GroupLayer peaLayer, final float x, final float y) {
+  public Card(final GroupLayer displayLayer, final float x, final float y) {
+	  
+	spriteIndex = SPRITE_BACK;
+	  
     // Sprite method #1: use a sprite image and json data describing the sprites
     sprite = SpriteLoader.getSprite(IMAGE, JSON);
     
@@ -23,9 +29,7 @@ public class Card {
       @Override
       public void done(Sprite sprite) {
         sprite.setSprite(spriteIndex);
-        sprite.layer().setOrigin(sprite.width() / 2f, sprite.height() / 2f);
-        sprite.layer().setTranslation(x, y);
-        peaLayer.add(sprite.layer());
+        displayLayer.add(sprite.layer());
         hasLoaded = true;
       }
 
@@ -35,15 +39,23 @@ public class Card {
       }
     });
   }
+  
+  public void setSpriteIndex(int index){
+	  spriteIndex = index;
+	  sprite.setSprite(index);
+  }
+  
+  public void displayBack(){
+	  spriteIndex = SPRITE_BACK;
+	  sprite.setSprite(SPRITE_BACK);
+  }
+  
+  public void updateCardPosition(int x, int y){
+	  sprite.layer().setTranslation(x, y);
+  }
 
   public void update(float delta) {
-    if (hasLoaded) {
-      if (Math.random() > 0.95) {
-        spriteIndex = (spriteIndex + 1) % sprite.numSprites();
-        sprite.setSprite(spriteIndex);
-      }
-      angle += delta;
-      sprite.layer().setRotation(angle);
-    }
+    
   }
+  
 }
