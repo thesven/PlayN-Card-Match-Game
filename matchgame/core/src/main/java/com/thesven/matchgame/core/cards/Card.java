@@ -2,8 +2,10 @@ package com.thesven.matchgame.core.cards;
 
 import static playn.core.PlayN.*;
 
+import playn.core.Analytics;
 import playn.core.GroupLayer;
 import playn.core.ResourceCallback;
+
 import com.thesven.matchgame.core.sprites.Sprite;
 import com.thesven.matchgame.core.sprites.SpriteLoader;
 
@@ -11,23 +13,24 @@ public class Card {
   public static String IMAGE = "images/CardDeck.png";
   public static String JSON = "sprite-data/card.json";
   
-  private static int SPRITE_BACK = 52;
+  public static int SPRITE_BACK = 52;
   
-  private int spriteIndex;
+  public  int spriteIndex;
+  
   private Sprite sprite;
+  private int xLoc;
+  private int yLoc;
   private boolean hasLoaded = false; // set to true when resources have loaded and we can update
 
   public Card(final GroupLayer displayLayer, final float x, final float y) {
-	  
-	spriteIndex = SPRITE_BACK;
-	  
+	
     // Sprite method #1: use a sprite image and json data describing the sprites
     sprite = SpriteLoader.getSprite(IMAGE, JSON);
     
     sprite.addCallback(new ResourceCallback<Sprite>() {
       @Override
       public void done(Sprite sprite) {
-        sprite.setSprite(spriteIndex);
+        sprite.setSprite(SPRITE_BACK);
         displayLayer.add(sprite.layer());
         hasLoaded = true;
       }
@@ -42,15 +45,38 @@ public class Card {
   
   public void setSpriteIndex(int index){
 	  spriteIndex = index;
-	  sprite.setSprite(index);
+  }
+  
+  public void displayFront(){
+	  sprite.setSprite(spriteIndex);
   }
   
   public void displayBack(){
-	  spriteIndex = SPRITE_BACK;
 	  sprite.setSprite(SPRITE_BACK);
   }
   
+  public boolean checkCardClick(float x, float y){
+	  
+	  float curX = xLoc;
+	  float curY = yLoc;
+	  float curWidth = sprite.layer().width();
+	  float curHeight = sprite.layer().height();
+	  
+	  //check to see if is within x
+	  if(x >= curX && x <= (curX + curWidth)){
+		  //check to see if is within y
+		  if(y >= curY && y <= (curY + curHeight)){
+			  displayFront();
+			  return true;
+		  }
+	  }
+	  
+	  return false;
+  }
+  
   public void updateCardPosition(int x, int y){
+	  xLoc = x;
+	  yLoc = y;
 	  sprite.layer().setTranslation(x, y);
   }
 

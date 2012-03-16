@@ -2,14 +2,21 @@ package com.thesven.matchgame.core;
 
 import static playn.core.PlayN.*;
 
+import java.util.Random;
+import java.util.Timer;
+
+import com.thesven.matchgame.core.cards.Card;
+
+import playn.core.Analytics;
 import playn.core.Game;
 import playn.core.GroupLayer;
 import playn.core.Image;
 import playn.core.ImageLayer;
+import playn.core.Pointer;
+import playn.core.Analytics.Category;
+import playn.core.Pointer.Event;
 
-import com.thesven.matchgame.core.cards.Card;
-
-public class MatchGame implements Game {
+public class MatchGame implements Game, Pointer.Listener {
   
   private final static int WIDTH = 640;
   private final static int HEIGHT = 480;
@@ -23,7 +30,10 @@ public class MatchGame implements Game {
   private GroupLayer layer;
   
   private Card cards[];
+  private Card selectedCardA;
+  private Card selectedCardB;
   
+  private Timer checkTimer;
   
   
   @Override
@@ -44,7 +54,11 @@ public class MatchGame implements Game {
     layer = graphics().createGroupLayer();
     graphics().rootLayer().add(layer);
     
+    checkTimer = new Timer();
+    
     createCards();
+    
+    pointer().setListener(this);
     
   }
   
@@ -61,6 +75,29 @@ public class MatchGame implements Game {
   @Override
   public int updateRate() {
     return 25;
+  }
+  
+  @Override
+  public void onPointerStart(Event event) {
+  	// TODO Auto-generated method stub
+  	
+  }
+
+
+  @Override
+  public void onPointerEnd(Event event) {
+  	
+    //analytics().logEvent(new Analytics.Category(1, ""), "");
+  	checkForCardHit(event.x(), event.y());
+  	
+    
+  }
+
+
+@Override
+  public void onPointerDrag(Event event) {
+  	// TODO Auto-generated method stub
+  	
   }
   
   private void createCards(){
@@ -83,6 +120,15 @@ public class MatchGame implements Game {
 	  
 	}
 	
+	//shuffle the cards
+	Random rgen = new Random();
+	for(int j = 0; j < MAX_CARDS; j++){
+	  int randomPosition = rgen.nextInt(MAX_CARDS);
+	  Card temp = cards[j];
+	  cards[j] = cards[randomPosition];
+	  cards[randomPosition] = temp;
+	}
+	
 	layoutCards();
 	  
   }
@@ -102,6 +148,49 @@ public class MatchGame implements Game {
 		  
 	  }
 	  
+  }
+  
+  private void checkForCardHit(float x, float y) {
+	// TODO Auto-generated method stub
+	for(int i = 0; i < MAX_CARDS; i++){
+		
+		Card card = (Card) cards[i];
+		if(card.checkCardClick(x, y)){
+			
+			if(selectedCardA == null){
+				analytics().logEvent(new Analytics.Category(1, "setting card"), "setting card a");
+				selectedCardA = card;
+				return;
+			} else if (selectedCardA != null && selectedCardB == null){
+				analytics().logEvent(new Analytics.Category(1, "setting card"), "setting card b");
+				selectedCardB = card;
+			}
+			
+			if(selectedCardA != null && selectedCardB != null){
+				log().debug("checking yo");
+				checkForMatch(selectedCardA, selectedCardB);
+			}
+			
+		}
+		
+	}
+  }
+
+
+  private void checkForMatch(Card cardA, Card cardB) {
+	 
+	  analytics().logEvent(new Analytics.Category(1, "checking for match"), "checking to see if a match exists");
+	  
+	  if(cardA.spriteIndex == cardB.spriteIndex){
+		  // you have found a match
+	  } else {
+		  cardA.displayBack();
+		  cardB.displayBack();
+	  }
+	  
+	  selectedCardA = null;
+	  selectedCardB = null;
+	
   }
   
   
