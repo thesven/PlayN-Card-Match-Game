@@ -4,8 +4,6 @@ import static playn.core.PlayN.*;
 
 import java.util.Random;
 
-import javax.jws.Oneway;
-
 import com.thesven.matchgame.core.cards.Card;
 import com.thesven.matchgame.core.time.SimpleTimer;
 
@@ -21,6 +19,8 @@ public class MatchGameCore {
 	public int cardXOffset;
 	public int cardYOffset;
 
+	public int gameTotalMatches;
+	
 	private Card cards[];
 	private Card selectedCardA;
 	private Card selectedCardB;
@@ -38,6 +38,8 @@ public class MatchGameCore {
 		cardYOffset = cardYoffset;
 		gameLayer = cardDisplayLayer;
 		mainCallback = gameCallback;
+		
+		gameTotalMatches = 0;
 
 	}
 	
@@ -156,7 +158,11 @@ public class MatchGameCore {
 			// you have found a match
 			cardA.removeCard(gameLayer);
 			cardB.removeCard(gameLayer);
-			mainCallback.onMatch();
+			gameTotalMatches++;
+			mainCallback.onMatch(gameTotalMatches);
+			if(gameTotalMatches == totalCards / 2){
+				mainCallback.onSuccess("user is a winner");
+			}
 		} else {
 			cardA.displayBack();
 			cardB.displayBack();

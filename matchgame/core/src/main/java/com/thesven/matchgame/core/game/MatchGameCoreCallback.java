@@ -5,5 +5,5 @@ import playn.core.util.Callback;
 public interface MatchGameCoreCallback extends Callback<String> {
 	void onStartMatchSearch();
 	void onEndMatchSearch();
-	void onMatch();
+	void onMatch(int totalMatches);
 }

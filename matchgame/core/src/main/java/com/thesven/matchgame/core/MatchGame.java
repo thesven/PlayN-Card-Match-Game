@@ -40,6 +40,7 @@ public class MatchGame implements Game, Pointer.Listener {
 		//preload any needed assets
 		assets().getImage(Card.IMAGE);
 		assets().getImage("images/bg.jpg");
+		assets().getSound(Card.FLIP_SOUND);
 
 		// create and add background image layer
 		Image bgImage = assets().getImage("images/bg.jpg");
@@ -54,7 +55,7 @@ public class MatchGame implements Game, Pointer.Listener {
 			
 			@Override
 			public void onSuccess(String result) {
-				
+				log().debug("The game has been won: " + result);
 			}
 			
 			@Override
@@ -68,8 +69,8 @@ public class MatchGame implements Game, Pointer.Listener {
 			}
 			
 			@Override
-			public void onMatch() {
-				
+			public void onMatch(int totalMatches) {
+				log().debug("Your Match Total is Now: "+totalMatches);
 			}
 			
 			@Override
