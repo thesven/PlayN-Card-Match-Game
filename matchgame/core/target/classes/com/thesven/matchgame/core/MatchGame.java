@@ -12,7 +12,6 @@ import playn.core.Image;
 import playn.core.ImageLayer;
 import playn.core.Pointer;
 import playn.core.Pointer.Event;
-import playn.core.util.Callback;
 
 public class MatchGame implements Game, Pointer.Listener {
 
@@ -55,13 +54,11 @@ public class MatchGame implements Game, Pointer.Listener {
 			
 			@Override
 			public void onSuccess(String result) {
-				// TODO Auto-generated method stub
 				
 			}
 			
 			@Override
 			public void onFailure(Throwable cause) {
-				// TODO Auto-generated method stub
 				
 			}
 			
@@ -71,9 +68,8 @@ public class MatchGame implements Game, Pointer.Listener {
 			}
 			
 			@Override
-			public boolean onMatch() {
-				// TODO Auto-generated method stub
-				return false;
+			public void onMatch() {
+				
 			}
 			
 			@Override

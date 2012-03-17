@@ -74,7 +74,7 @@ public class MatchGameCore {
 			log().debug("you should check for a match now ... starting the timer");
 			
 			mainCallback.onStartMatchSearch();
-			time = new SimpleTimer(1000, new Callback<String>(){
+			time = new SimpleTimer(650, new Callback<String>(){
 				@Override
 				public void onSuccess(String result) {
 					checkForMatch(selectedCardA, selectedCardB);
