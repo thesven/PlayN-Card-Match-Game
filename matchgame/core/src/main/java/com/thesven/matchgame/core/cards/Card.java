@@ -2,7 +2,6 @@ package com.thesven.matchgame.core.cards;
 
 import static playn.core.PlayN.*;
 
-import playn.core.Analytics;
 import playn.core.GroupLayer;
 import playn.core.ResourceCallback;
 
@@ -20,11 +19,12 @@ public class Card {
   private Sprite sprite;
   private int xLoc;
   private int yLoc;
-  private boolean hasLoaded = false; // set to true when resources have loaded and we can update
+  private boolean hasLoaded = false;
+  public boolean removed = false;
+  public boolean showingFront = false;
 
   public Card(final GroupLayer displayLayer, final float x, final float y) {
-	
-    // Sprite method #1: use a sprite image and json data describing the sprites
+
     sprite = SpriteLoader.getSprite(IMAGE, JSON);
     
     sprite.addCallback(new ResourceCallback<Sprite>() {
@@ -48,11 +48,18 @@ public class Card {
   }
   
   public void displayFront(){
+	  showingFront = true;
 	  sprite.setSprite(spriteIndex);
   }
   
   public void displayBack(){
+	  showingFront = false;
 	  sprite.setSprite(SPRITE_BACK);
+  }
+  
+  public void removeCard(final GroupLayer displayLayer) {
+	  displayLayer.remove(sprite.layer());
+	  removed = true;
   }
   
   public boolean checkCardClick(float x, float y){

@@ -244,7 +244,7 @@ function matchgame(){
   $stats && $stats({moduleName:'matchgame', sessionId:$sessionId_0, subSystem:'startup', evtGroup:'bootstrap', millis:(new Date).getTime(), type:'selectingPermutation'});
   if (!isHostedMode()) {
     try {
-      strongName = '7CB4C9AD1751EB719564F4803C0718E4';
+      strongName = 'C50EA36450CA004A52501D34954C64ED';
       var idx = strongName.indexOf(':');
       if (idx != -1) {
         softPermutationId = Number(strongName.substring(idx + 1));
