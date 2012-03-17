@@ -4,7 +4,7 @@ import static playn.core.PlayN.*;
 
 import playn.core.util.Callback;
 
-public class Time {
+public class SimpleTimer {
   
   public boolean running = false;
 	
@@ -13,9 +13,8 @@ public class Time {
   private double endTime;
   private Callback<String> timerCallback;
 	
-  public Time(double waitTime, Callback<String> callback) {
+  public SimpleTimer(double waitTime, Callback<String> callback) {
 	 
-    log().debug("creating a timer");
 	elapseTime = waitTime;
 	timerCallback = callback;
   
@@ -23,7 +22,6 @@ public class Time {
   
   public void start(){
 	 
-    log().debug("starting the timer");
 	startTime = currentTime();
 	endTime = startTime + elapseTime;
 	running = true;
@@ -36,7 +34,6 @@ public class Time {
       if(currentTime() >= endTime){
 	    running = false;
 		timerCallback.onSuccess("Time has elapsed");
-		log().debug("Time has elapsed");
       }
 	}
 	  

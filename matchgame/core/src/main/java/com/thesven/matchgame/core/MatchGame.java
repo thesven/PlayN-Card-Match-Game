@@ -3,11 +3,9 @@ package com.thesven.matchgame.core;
 import static playn.core.PlayN.*;
 
 import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import com.thesven.matchgame.core.cards.Card;
-import com.thesven.matchgame.core.time.Time;
+import com.thesven.matchgame.core.time.SimpleTimer;
 
 import playn.core.Game;
 import playn.core.GroupLayer;
@@ -35,7 +33,7 @@ public class MatchGame implements Game, Pointer.Listener {
 	private Card cards[];
 	private Card selectedCardA;
 	private Card selectedCardB;
-	private Time time;
+	private SimpleTimer time;
 
 
 	@Override
@@ -184,7 +182,7 @@ public class MatchGame implements Game, Pointer.Listener {
 
 			log().debug("you should check for a match now ... starting the timer");
 
-			time = new Time(1000, new Callback<String>(){
+			time = new SimpleTimer(1000, new Callback<String>(){
 				@Override
 				public void onSuccess(String result) {
 					checkForMatch(selectedCardA, selectedCardB);
